@@ -11,12 +11,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
-# import psycopg2
+import psycopg2
 
-# import pymysql
+import pymysql
 from decouple import config
+from django.contrib.auth import get_user_model
 
-# pymysql.install_as_MySQLdb()
+pymysql.install_as_MySQLdb()
+
+User = get_user_model()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -112,10 +115,10 @@ DATABASES = {
     # }
 }
 
-# import dj_database_url
+import dj_database_url
 
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 # DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL'))
@@ -211,7 +214,8 @@ JAZZMIN_SETTINGS = {
     "copyright": "Hostel Management",
 
     # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "auth.User",
+    # "search_model": "auth.User",
+    "search_model": User,
 
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
@@ -230,7 +234,8 @@ JAZZMIN_SETTINGS = {
         # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
 
         # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
+        # {"model": "auth.User"},
+        {"model": User},
 
         # App with dropdown menu to all its models pages (Permissions checked against models)
         # {"app": "books"},
