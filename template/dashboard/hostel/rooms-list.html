@@ -1,0 +1,223 @@
+{% extends 'dashboard/hostel/base.html' %}
+<!--{% load static %}-->
+{% load crispy_forms_tags %}
+{% block content %}
+
+<!-- sidebar @s -->
+{% include 'dashboard/hostel/includes/sidenavbar.html' %}
+<!-- sidebar @s -->
+
+<!-- main header @s -->
+{% include 'dashboard/hostel/includes/header.html' with person=request.user %}
+<!-- main header @e -->
+<!-- content @s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Rooms</h3>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em
+                                        class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        {% if user.is_staff %}
+                                        <li class="nk-block-tools-opt">
+                                            <a href="#" data-target="addProduct"
+                                               class="toggle btn btn-icon btn-primary d-md-none"><em
+                                                    class="icon ni ni-plus"></em></a>
+                                            <a href="#" data-target="addProduct"
+                                               class="toggle btn btn-primary d-none d-md-inline-flex"><em
+                                                    class="icon ni ni-plus"></em><span>Add New Room</span></a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card card-preview">
+                            <div class="card-inner">
+
+                                <div class="datatable-wrap my-3">
+                                    <div class="card-inner">
+                                        <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer"
+                                               data-auto-responsive="false" id="DataTables_Table_1"
+                                               aria-describedby="DataTables_Table_1_info">
+                                            <thead>
+                                            <tr class="nk-tb-item nk-tb-head">
+                                                <th class="nk-tb-col sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="User: activate to sort column ascending"><span
+                                                        class="sub-text">Hostel Name </span></th>
+                                                <th class="nk-tb-col tb-col-mb sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="Balance: activate to sort column ascending"><span
+                                                        class="sub-text">Gender</span></th>
+                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending"><span
+                                                        class="sub-text">Room Capacity</span></th>
+                                                <th class="nk-tb-col tb-col-lg sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="Verified: activate to sort column ascending"><span
+                                                        class="sub-text">Meal</span></th>
+                                                <th class="nk-tb-col tb-col-lg sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="Last Login: activate to sort column ascending"><span
+                                                        class="sub-text">Ratings</span></th>
+                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="Status: activate to sort column ascending"><span
+                                                        class="sub-text">Status</span></th>
+                                                <th class="nk-tb-col nk-tb-col-tools text-right sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
+                                                    aria-label="
+                                                        : activate to sort column ascending">
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for room in roomsobj %}
+                                            <tr class="nk-tb-item even">
+
+                                                <td class="nk-tb-col">
+                                                    <div class="user-card">
+                                                        <div class="user-avatar bg-success d-none d-sm-flex">
+
+                                                            <span>
+                                                                <img src="{{room.photo.url}}"/>
+                                                            </span>
+                                                        </div>
+                                                        <div class="user-info">
+                                                            <span class="tb-lead">{{room.hostel_name}} <span
+                                                                    class="dot dot-warning d-md-none ml-1"></span></span>
+                                                            <span>{{room.hostel_name.location}}</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-mb" data-order="580.00">
+                                                    <span class="tb-amount">{{room.gender}} <span
+                                                            class="currency">room</span></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span>{{room.room_capacity}}</span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-lg"
+                                                    data-order="Email Verified - Kyc Submited">
+                                                    {% if room.meal == "Yes" %}
+                                                    <em class="icon text-success ni ni-check-circle"></em>
+                                                    <span>{{room.meal}}</span>
+                                                    {% else %}
+                                                    <em class="icon text-danger ni ni-alert-circle"></em>
+                                                    <span>{{room.meal}}</span>
+                                                    {% endif %}
+
+                                                </td>
+                                                <td class="nk-tb-col tb-col-lg">
+                                                    <span>{{room.hostel_name.ratings }} / 5</span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span class="tb-status text-warning">{{room.availbilitystatus }} </span>
+                                                </td>
+                                                <td class="nk-tb-col nk-tb-col-tools">
+                                                    <ul class="nk-tb-actions gx-1">
+
+                                                        <li>
+                                                            <div class="drodown">
+                                                                <a href="#"
+                                                                   class="dropdown-toggle btn btn-icon btn-trigger"
+                                                                   data-toggle="dropdown"><em
+                                                                        class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <ul class="link-list-opt no-bdr">
+
+                                                                        <li>
+                                                                            <a href="/room/{{room.id}}"><em
+                                                                                    class="icon ni ni-eye"></em><span>View Details</span></a>
+                                                                        </li>
+                                                                        {% if user.is_staff %}
+                                                                        <li>
+                                                                            <a href="/edit_room/{{room.id}}"><em
+                                                                                    class="icon ni ni-pen2"></em><span>Edit Room</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                             <a href="/delete_room/{{room.id}}"><em
+                                                                                    class="icon ni ni-trash"></em><span>Delete Room</span></a>
+                                                                        </li>
+                                                                        {% endif %}
+
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .nk-block -->
+                <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct"
+                     data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h5 class="nk-block-title">New Room</h5>
+                            <div class="nk-block-des">
+                                <p>Add information and add new room.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="card card-bordered ">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h5 class="card-title">Add New Room</h5>
+                                </div>
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+
+                                    <div class="form-group" action="">
+                                        {{ formpassed|crispy }}
+                                        <div class="col-12">
+                                            <button class="btn btn-primary"><em
+                                                    class="icon ni ni-plus"></em><span>Add New Room</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- content @e -->
+
+<!-- content @e -->
+<!-- footer @s -->
+{% include 'dashboard/hostel/includes/footer.html' %}
+<!-- footer @e -->
+{% endblock %}

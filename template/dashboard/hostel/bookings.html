@@ -1,0 +1,109 @@
+{% extends 'dashboard/hostel/base.html' %}
+<!--{% load static %}-->
+{% block content %}
+
+<!-- sidebar @s -->
+{% include 'dashboard/hostel/includes/sidenavbar.html' %}
+<!-- sidebar @e -->
+<!-- wrap @s -->
+<div class="nk-wrap ">
+    <!-- main header @s -->
+    {% include 'dashboard/hostel/includes/header.html' %}
+    <!-- main header @e -->
+
+    <!-- content @s -->
+    <div class="nk-content ">
+        <div class="container-fluid">
+            <div class="nk-content-inner">
+                <div class="nk-content-body">
+                    <div class="nk-block-head nk-block-head-sm">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <h3 class="nk-block-title page-title">Booking Lists</h3>
+                                <div class="nk-block-des text-soft">
+                                    <p>You have
+                                        {% if not bookingslist %}
+                                        no booking yet.</p>
+                                    {% else %}
+                                    a total of {{ numberofbooking }} bookings.</p>
+                                    {% endif %}
+
+
+                                </div>
+                            </div><!-- .nk-block-head-content -->
+                            <div class="nk-block-head-content">
+                                <div class="toggle-wrap nk-block-tools-toggle">
+                                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1"
+                                       data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                        <ul class="nk-block-tools g-3">
+                                            <li><a href="#" class="btn btn-white btn-outline-light"><em
+                                                    class="icon ni ni-download-cloud"></em><span>Export</span></a></li>
+                                            <li class="nk-block-tools-opt">
+                                                <div class="drodown">
+                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-primary"
+                                                       data-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul class="link-list-opt no-bdr">
+                                                            <li>
+                                                                <a href="html/hotel/booking-add.html"><span>Add Booking</span></a>
+                                                            </li>
+                                                            <li><a href="#"><span>Import Booking</span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- .toggle-wrap -->
+                            </div><!-- .nk-block-head-content -->
+                        </div><!-- .nk-block-between -->
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="card card-bordered card-stretch">
+                            <div class="card-inner-group">
+
+                                <div class="card card-preview">
+                                    <div class="card-inner">
+                                        <table class="datatable-init-export nowrap table"
+                                               data-export-title="Export">
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Room Type</th>
+                                                <th>Duration</th>
+                                                <th>Payment Status</th>
+                                                <th>Arrival Date</th>
+                                                <th>Status(Booked)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for booking in bookingslist %}
+
+                                            <tr>
+                                                <td><a href="/bookings/{{booking.id}}/" class="text-primary">{{booking.customer_name}}</a>
+                                                </td>
+                                                <td>{{booking.room_type}}</td>
+                                                <td>{{booking.duration}}</td>
+                                                <td>{{booking.payment_status}}</td>
+                                                <td>{{booking.arrival_date}}</td>
+                                                <td>{{booking.booked}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div><!-- .card-preview -->
+                            </div><!-- .card-inner-group -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content @e -->
+
+    <!-- footer @s -->
+    {% include 'dashboard/hostel/includes/footer.html' %}
+    <!-- footer @e -->
+    {% endblock %}

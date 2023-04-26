@@ -1,0 +1,399 @@
+{% extends 'dashboard/hostel/base.html' %}
+<!--{% load static %}-->
+{% block content %}
+
+<!-- sidebar @s -->
+{% include 'dashboard/hostel/includes/sidenavbar.html' %}
+<!-- sidebar @e -->
+<!-- wrap @s -->
+<div class="nk-wrap ">
+
+    <!-- main header @s -->
+    {% include 'dashboard/hostel/includes/header.html' with person=request.user %}
+    <!-- main header @e -->
+    <!-- content @s -->
+    <div class="nk-content ">
+        <div class="container-fluid">
+            <div class="nk-content-inner">
+                <div class="nk-content-body">
+                    <div class="nk-block-head nk-block-head-sm">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                {% if user.is_staff %}
+                                <h1 class="nk-block-title ">Staff Dashboard </h1>
+                                {% else %}
+                                <h1 class="nk-block-title ">{{ user|title }}'s Dashboard</h1>
+                                {% endif %}
+
+                                <div class="nk-block-des text-soft">
+                                    <p> Welcome home.</p>
+                                </div>
+                            </div><!-- .nk-block-head-content -->
+                            <div class="nk-block-head-content">
+                                {% if user.is_staff %}
+                                <div class="toggle-wrap nk-block-tools-toggle">
+                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                        <ul class="nk-block-tools g-3">
+                                            <li class="nk-block-tools-opt"><a href="/admin" class="btn btn-primary"><em
+                                                    class="icon ni ni-reports"></em><span>Admin</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div><!-- .nk-block-head-content -->
+                        </div><!-- .nk-block-between -->
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="row g-gs">
+                            <div class="col-md-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner">
+                                        <div class="card-title-group align-start mb-0">
+                                            <div class="card-title">
+                                                <h6 class="title">Total Bookings</h6>
+                                            </div>
+                                            <div class="card-tools">
+                                                <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip"
+                                                    data-placement="left" title="Total Booking"></em>
+                                            </div>
+                                        </div>
+                                        <div class="card-amount">
+                                            <span class="amount"> {{ totalbookings }} </span>
+                                            {% if paid_totalbookings > due_totalbookings %}
+                                            <span class="change down text-info">
+                                                <em class="icon ni ni-arrow-long-up"></em>{{paid_totalbookings}} % payment made
+                                            </span>
+                                            {% elif due_totalbookings > paid_totalbookings %}
+                                            <span class="change down text-danger">
+                                                <em class="icon ni ni-arrow-long-down"></em>{{due_totalbookings}} % payment due
+                                            </span>
+                                            {% endif %}
+
+
+                                        </div>
+                                        <div class="invest-data">
+                                            <div class="invest-data-amount g-2">
+                                                <div class="invest-data-history">
+                                                    <div class="title">Paid</div>
+                                                    <div class="amount text-success">{{paid_totalbookings}}
+                                                        <em class="icon ni ni-arrow-long-up"></em></div>
+                                                    <span class="change down "></span>
+                                                </div>
+                                                <div class="invest-data-history">
+                                                    <div class="title">Due</div>
+                                                    <div class="amount text-danger">{{due_totalbookings}}
+                                                        <em class="icon ni ni-arrow-long-down"></em></div>
+                                                    <span class="change down ">
+                                            </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
+                            <div class="col-md-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner">
+                                        <div class="card-title-group align-start mb-0">
+                                            <div class="card-title">
+                                                <h6 class="title">Rooms Available</h6>
+                                            </div>
+                                            <div class="card-tools">
+                                                <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip"
+                                                    data-placement="left" title="Available rooms"></em>
+                                            </div>
+                                        </div>
+                                        <div class="card-amount">
+                                            <span class="amount"> {{ numberofrooms }}
+                                            <span
+                                                    class="currency currency-usd">Rooms</span> </span>
+                                        </div>
+                                        <div class="invest-data">
+                                            <div class="invest-data-amount g-2">
+                                                <div class="invest-data-history">
+                                                    <div class="title">Double Rooms</div>
+                                                    <div class="amount">{{doublerooms}}</div>
+                                                </div>
+                                                <div class="invest-data-history">
+                                                    <div class="title">Single Rooms</div>
+                                                    <div class="amount">{{singlerooms}}</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
+                            <div class="col-md-4">
+                                <div class="card card-bordered  card-full">
+                                    <div class="card-inner">
+                                        <div class="card-title-group align-start mb-0">
+                                            <div class="card-title">
+                                                <h6 class="title">Student Registered</h6>
+                                            </div>
+                                            <div class="card-tools">
+                                                <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip"
+                                                    data-placement="left" title="Student Registered here"></em>
+                                            </div>
+                                        </div>
+                                        <div class="card-amount">
+                                                        <span class="amount"> {{students}} <span
+                                                                class="currency currency-usd">students</span>
+                                                        </span>
+                                        </div>
+                                        <div class="invest-data">
+                                            <div class="invest-data-amount g-2">
+                                                <div class="invest-data-history">
+                                                    <div class="title">Gender Ratio</div>
+                                                    <div class="amount">{{students_male}} <span
+                                                            class="currency currency-usd"> Male {{students_male|pluralize}}</span>
+                                                        :{{students_male}}<span class="currency currency-usd"> Female {{students_male|pluralize}}</span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="invest-data-history">
+                                                    <div class="title">Level of Study</div>
+                                                    <div class="amount">{{students_firstyear}} <span
+                                                            class="currency currency-usd">Year1 {{students_firstyear|pluralize}}</span>,{{students_thridyear}}<span
+                                                            class="currency currency-usd"> Year3 {{students_thridyear|pluralize}}</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
+
+                            <!--                            table only staff sees-->
+<!--                            {% if user.is_staff %}-->
+                            <div class="col-xxl-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner d-flex flex-column h-100">
+                                        <div class="card-title-group mb-3">
+                                            <div class="card-title">
+                                                <h6 class="title">Bookings</h6>
+                                            </div>
+                                        </div>
+                                        <div class="progress-list gy-3">
+                                            <div class="card card-preview">
+                                                <div class="card-inner">
+                                                    <table class="datatable-init-export nowrap table"
+                                                           data-export-title="Export">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Room Type</th>
+                                                            <th>Duration</th>
+                                                            <th>Payment Status</th>
+                                                            <th>Arrival Date</th>
+                                                            <th>Status(Booked)</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for booking in bookingslist %}
+
+                                                        <tr>
+                                                            <td><a href="/bookings/{{booking.id}}/"
+                                                                   class="text-primary">{{booking.customer_name|title}}</a>
+                                                            </td>
+                                                            <td>{{booking.room_type|title}}</td>
+                                                            <td>{{booking.duration|title}}</td>
+                                                            <td>{{booking.payment_status|title}}</td>
+                                                            <td>{{booking.arrival_date}}</td>
+                                                            <td>{{booking.booked|title}}</td>
+                                                            {% if user == booking.customer_name %}
+                                                            <td><a class="btn btn-danger btn-sm text-white"
+                                                                   href="/delete_bookings/{{booking.id}}/">Del</a></td>
+                                                            {% endif %}
+                                                        </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div><!-- .card-preview -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<!--                            {% endif %}-->
+
+                            <div class="col-md-6 col-xxl-3">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner-group">
+                                        <div class="card-inner">
+                                            <div class="card-title-group">
+                                                <div class="card-title">
+                                                    <h6 class="title">
+                                                        {% if user.is_staff %}
+                                                        Customer Residents (Students)
+                                                        {% else %}
+                                                        Residents (Students)
+                                                        {% endif %}
+                                                    </h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <a href="html/hotel/customers.html" class="link">View All</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul>
+                                            {% for item in bookingslist %}
+                                            <li>
+                                                <div class="card-inner card-inner-md">
+                                                    <div class="user-card">
+
+                                                        <div class="user-avatar bg-light">
+                                                            <span>
+                                                                <a href="/profiledetailofanotheruser/{{item.id}}"><img src="{{item.customer_name.photo.url}}"/></a>
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="user-info">
+                                                                <span class="lead-text"><a class="lead-text"
+                                                                                           href="/profiledetailofanotheruser/{{item.id}}">{{item.customer_name}}</a></span>
+                                                            <span class="lead-text">{{item.hostel_name}}</span>
+                                                        </div>
+                                                        <div class="user-action">
+                                                            <div class="drodown">
+                                                                <a href="#"
+                                                                   class="dropdown-toggle btn btn-icon btn-trigger mr-n1"
+                                                                   data-toggle="dropdown" aria-expanded="false"><em
+                                                                        class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <ul class="link-list-opt no-bdr">
+                                                                        <li>
+                                                                            <a href="/profiledetailofanotheruser/{{item.id}}"><em
+                                                                                    class="icon ni ni-setting"></em><span>View Profile</span></a>
+                                                                        </li>
+                                                                        <li><a href="#"><em
+                                                                                class="icon ni ni-notify"></em><span>{{item.room_type}}</span></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+
+                                    </div>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
+                            <div class="col-md-6 col-xxl-4">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner border-bottom">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Room Types</h6>
+                                            </div>
+                                            <div class="card-tools">
+                                                <ul class="card-tools-nav">
+                                                    <li class="active"><a href="#"><span>All</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="nk-activity">
+
+                                        <li class="nk-activity-item">
+                                            <div class="nk-activity-media user-avatar bg-info"></div>
+                                            <div class="nk-activity-data">
+                                                <div class="label">Single Room</div>
+                                                <span class="time">Gender : Female</span>
+                                            </div>
+                                        </li>
+                                        <li class="nk-activity-item">
+                                            <div class="nk-activity-media user-avatar bg-info"></div>
+                                            <div class="nk-activity-data">
+                                                <div class="label">Single Room</div>
+                                                <span class="time">Gender : Male</span>
+                                            </div>
+                                        </li>
+                                        <li class="nk-activity-item">
+                                            <div class="nk-activity-media user-avatar bg-warning"></div>
+                                            <div class="nk-activity-data">
+                                                <div class="label">Double Room</div>
+                                                <span class="time">Gender : Female</span>
+                                            </div>
+                                        </li>
+                                        <li class="nk-activity-item">
+                                            <div class="nk-activity-media user-avatar bg-warning"></div>
+                                            <div class="nk-activity-data">
+                                                <div class="label">Double Room</div>
+                                                <span class="time">Gender : Male</span>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
+
+                            <div class="col-md-12 col-xxl-3">
+                                <div class="card card-bordered card-full">
+                                    <div class="card-inner-group">
+                                        <div class="card-inner">
+                                            <div class="card-title-group">
+                                                <div class="card-title">
+                                                    <h6 class="title">List Of Hostels</h6>
+                                                </div>
+                                                <div class="card-tools">
+                                                    <a href="/hostels" class="link">View All</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
+
+                            <div class="nk-block">
+                                <div class="row g-gs">
+                                    {% for hostel in hostelsobj %}
+                                    <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                        <div class="card card-bordered product-card">
+                                            <div class="product-thumb">
+                                                <a href="/hostel/{{hostel.id}}">
+                                                    <img class="card-img-top" src="{{hostel.photo.url}}" alt="">
+                                                </a>
+                                                <ul class="product-badges">
+                                                    <li><span class="badge badge-success"></span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-inner text-center">
+                                                <ul class="product-tags">
+                                                    <li><a href="#">{{hostel.name}}</a></li>
+                                                </ul>
+                                                <h5 class="product-title"><a
+                                                        href="html/product-details.html">{{hostel.location}}</a></h5>
+                                                <div class="product-price text-primary h5"><small class="fs-13px">{{hostel.total_rooms}}
+                                                    rooms</small>
+                                                    {{hostel.total_booked_rooms}} booked rooms
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .col -->
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div><!-- .row -->
+                    </div><!-- .nk-block -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+<!-- footer @s -->
+{% include 'dashboard/hostel/includes/footer.html' %}
+<!-- footer @e -->
+{% endblock %}
+

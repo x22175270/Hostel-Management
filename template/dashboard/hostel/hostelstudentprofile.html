@@ -1,0 +1,41 @@
+{% extends 'dashboard/hostel/base.html' %}
+<!--{% load static %}-->
+{% load crispy_forms_tags %}
+
+{% block content %}
+<body class="nk-body bg-white npc-general pg-auth">
+<div class="nk-app-root">
+    <!-- main @s -->
+    <div class="nk-main ">
+        <!-- wrap @s -->
+        <div class="nk-wrap nk-wrap-nosidebar">
+            <!-- content @s -->
+            <div class="nk-content ">
+                <div class="nk-block  nk-auth-body wide-xs">
+                    <div class="card card-bordered">
+                        <div class="card-inner card-inner-lg">
+                            <form method="POST" action="#" enctype="multipart/form-data">
+                                <h1>
+                                    {{ request.user|title }}'s Profile
+                                </h1>
+                                {% csrf_token %}
+                                {{ student_form|crispy }}
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+                            </form><!-- form -->
+
+                        </div>
+                    </div>
+                </div><!-- nk-split -->
+            </div>
+        </div>
+    </div>
+</div><!-- nk-split -->
+<!-- wrap @e -->
+</body>
+<!-- content @e -->
+
+
+<!-- footer @s -->
+{% include 'dashboard/hostel/includes/footer.html' %}
+<!-- footer @e -->
+{% endblock %}
