@@ -5,9 +5,9 @@ phases:
     runtime-versions:
       python: 3.11
     commands:
-      - ls -lrt
-      - pylint --ignore=migrations,.ebextensions,__pycache__,static,staticfiles,templates,.gitignore,buidspec.yml,db.sqlite3 --generate-rcfile > .pylintrc
-      - sed -i 's/fail-under=10/fail-under=6/g'  .pylintrc
+      # - ls -lrt
+      # - pylint --ignore=migrations,.ebextensions,__pycache__,static,staticfiles,templates,.gitignore,buidspec.yml,db.sqlite3 --generate-rcfile > .pylintrc
+      # - sed -i 's/fail-under=10/fail-under=6/g'  .pylintrc
   pre_build:
     commands:
     - python --version
@@ -19,3 +19,4 @@ phases:
 artifacts:
  files:
   - '**/*'
+
