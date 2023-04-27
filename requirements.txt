@@ -29,3 +29,4 @@ Student==0.0.1
 typing_extensions==4.5.0
 urllib3==1.26.8
 whitenoise==5.3.0
+wheel
